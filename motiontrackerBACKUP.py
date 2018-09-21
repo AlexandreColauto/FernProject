@@ -97,9 +97,9 @@ class MotionTracker(object):
                     t_h = self.sock.recv(1)
                     self.sock.recv(1) # Check sum, ignore
 
-                    self.acc_x = struct.unpack("<h", ax_l + ax_h)[0] / 32768.0
-                    self.acc_y = struct.unpack("<h", ay_l + ay_h)[0] / 32768.0
-                    self.acc_z = struct.unpack("<h", az_l + az_h)[0] / 32768.0
+                    self.acc_x = struct.unpack("<h", ax_l + ax_h)[0] / 32768.0 * 16.0
+                    self.acc_y = struct.unpack("<h", ay_l + ay_h)[0] / 32768.0 * 16.0
+                    self.acc_z = struct.unpack("<h", az_l + az_h)[0] / 32768.0 * 16.0
                     self.temperature = struct.unpack("<h", t_l + t_h)[0] / 340.0 + 36.25
                 # Angular velocity
                 elif data_block_type == b'\x52':
@@ -114,9 +114,9 @@ class MotionTracker(object):
                     t_h = self.sock.recv(1)
                     self.sock.recv(1)  # Check sum, ignore
 
-                    self.angv_x = struct.unpack("<h", wx_l + wx_h)[0] / 32768.0
-                    self.angv_y = struct.unpack("<h", wy_l + wy_h)[0] / 32768.0
-                    self.angv_z = struct.unpack("<h", wz_l + wz_h)[0] / 32768.0
+                    self.angv_x = struct.unpack("<h", wx_l + wx_h)[0] / 32768.0 * 2000.0
+                    self.angv_y = struct.unpack("<h", wy_l + wy_h)[0] / 32768.0 * 2000.0
+                    self.angv_z = struct.unpack("<h", wz_l + wz_h)[0] / 32768.0 * 2000.0
                     self.temperature = struct.unpack("<h", t_l + t_h)[0] / 340.0 + 36.25
                 # Angle
                 elif data_block_type == b'\x53':
@@ -131,9 +131,9 @@ class MotionTracker(object):
                     t_h = self.sock.recv(1)
                     self.sock.recv(1)  # Check sum, ignore
 
-                    self.ang_x = struct.unpack("<h", roll_l + roll_h)[0] / 32768.0
-                    self.ang_y = struct.unpack("<h", pitch_l + pitch_h)[0] / 32768.0
-                    self.ang_z = struct.unpack("<h", yaw_l + yaw_h)[0] / 32768.0
+                    self.ang_x = struct.unpack("<h", roll_l + roll_h)[0] / 32768.0 * 180.0
+                    self.ang_y = struct.unpack("<h", pitch_l + pitch_h)[0] / 32768.0 * 180.0
+                    self.ang_z = struct.unpack("<h", yaw_l + yaw_h)[0] / 32768.0 * 180.0
                     self.temperature = struct.unpack("<h", t_l + t_h)[0] / 340.0 + 36.25
 
 

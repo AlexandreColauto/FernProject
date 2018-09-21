@@ -1,0 +1,42 @@
+from sklearn import svm
+import numpy as np
+import motiontracker.py as mt
+from sklearn.externals import joblib
+from ola.ClientWrapper import ClientWrapper
+import sys
+
+
+wrapper = None
+universe = 1
+
+mpu=mt.MotionTracker(bd_addr="20:17:12:04:51:13")
+
+model = joblib.load('model.pkl') # criacao do svm
+
+gatilho= True
+
+
+buffer = np.zeros(180) # o buffer vai receber em tempo real os valores de aceleracao 
+
+
+while gatilho: # loop do buffer, que continuara recebendo os valores e tentanto achar algum padrao correspondende, a principio vamos fazer  20k de amostras e ir incrementando no vetor de 50 em 50, se ficar muito pesado 
+			# vamos diminuindo o numero de amostras
+	buffer = np.roll(buffer,9) # rotaciona 5 espacos 
+	buffer[:9]=mpu.ang_x,mpu.acc_x,mpu.angv_x,mpu.ang_y,mpu.acc_y,mpu.angv_y,mpu.ang_z,   # adiciona 5 valores para o inicio do buffer
+	padrao=model.predict(buffer)
+if padrao == 1
+	data = 50
+elif padrao == 2
+	data = 100
+elif padrao == 3
+	data = 150
+elif padrao == 4
+	data = 200
+
+
+
+global wrapper
+wrapper = ClientWrapper()
+client = wrapper.Client()
+client.SendDmx(universe,data,DmxSent)
+wrapper.run
